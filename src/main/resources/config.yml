@@ -1,0 +1,67 @@
+# ===== [ ERROR MESSAGES ] =====
+messages:
+  # Message shown to a player when no one receives their message (e.g., out of range).
+  nobody_saw: "§4Nobody saw your message"
+  # Message shown when a player lacks permission to use a specific chat type.
+  no_access_to_chat: "§4You do not have access to this type of chat"
+
+# ===== [ CHAT SETTINGS ] =====
+chat:
+  types:
+    global_chat:
+      # Prefix to activate global chat. Example: !Hello
+      prefix: "!"
+      # Required permission to use (leave empty for public access)
+      permission: ""
+      # Message format: {player} = player name, {message} = message text
+      format: "[!] [{player}] {message}"
+      # Message broadcast distance:
+      # -2 = unlimited (entire server)
+      # -1 = same world only
+      # >0 = radius in blocks
+      distance: -2
+
+    local_chat:
+      # Prefix for local chat (empty = default chat)
+      prefix: ""
+      # Permission required (empty = available to all)
+      permission: ""
+      # Message format for local chat
+      format: "[?] [{player}] {message}"
+      # Messages are visible only within 48 blocks
+      distance: 48
+
+# ===== [ MENTION SYSTEM (@NAME) ] =====
+ping:
+  # Enable or disable the mention system via @player_name
+  enable: false
+  # Symbol that triggers mentions. Example: @Player
+  prefix: "@"
+  # Format for regular mentions (not the recipient)
+  format: "§f§l§n{player}§r"
+  # Format for mentions when the message is addressed to the player (active)
+  active_format: "§6§l§n{player}§r"
+  # Sound played when a player is mentioned
+  sound: "minecraft:block.note_block.pling"
+
+# ===== [ SERVER MESSAGES ] =====
+# IMPORTANT: Message names must be sequential: message1, message2, etc. No gaps allowed!
+server_messages:
+  # Enable or disable automatic server message broadcasting
+  enable: false
+  # Interval between messages in ticks (20 ticks = 1 second)
+  period: 260
+  messages:
+    # Example server message with multiple lines
+    example_message:
+      - "This is an example"
+      - "multi-line message"
+    # Another message
+    hello:
+      - "Welcome to our server!"
+
+# ===== [ ADDITIONAL NOTES ] =====
+# - You can create any number of chat types with unique prefixes, formats, and distances
+# - If a message starts with a prefix, the corresponding chat type is used
+# - Server messages support color codes (&) and PlaceholderAPI (if installed)
+# - Mention system (@player) only works for online players and plays a sound notificatio
