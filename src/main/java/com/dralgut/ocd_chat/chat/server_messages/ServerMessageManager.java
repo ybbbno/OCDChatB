@@ -16,6 +16,8 @@ import java.util.List;
 public class ServerMessageManager {
     private static final List<ServerMessage> MESSAGES = new ArrayList<>();
 
+    public static boolean isServerMessageEnable;
+
     private static BukkitTask task;
     private static int pos;
 
@@ -27,7 +29,8 @@ public class ServerMessageManager {
 
         FileConfiguration config = OCDChat.config;
 
-        if (!config.getBoolean("server_messages.enable", false)) return;
+        isServerMessageEnable = config.getBoolean("server_messages.enable", false);
+        if (!isServerMessageEnable) return;
 
         ConfigurationSection component = config.getConfigurationSection("server_messages.messages");
         if (component == null) return;

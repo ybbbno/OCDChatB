@@ -25,7 +25,7 @@ public class ChatCore implements Listener {
     private final static int UNLIMITED_FOR_WORLD = -1;
 
     // ping
-    private static boolean isPingEnable;
+    public static boolean isPingEnable;
     private static Pattern pingPrefixPattern;
     private static String pingPrefix;
     private static String pingFormat;
