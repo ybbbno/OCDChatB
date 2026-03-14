@@ -67,7 +67,7 @@ public class ChatCore implements Listener {
             Set<Player> recipients = getRecipients(sender, distance);
 
             for (Player recipient : recipients) {
-                String processedMessage = processMessage(message, recipient, type);
+                String processedMessage = processMessage(message, recipient, sender, type);
                 recipient.sendMessage(processedMessage);
             }
 
@@ -79,12 +79,12 @@ public class ChatCore implements Listener {
         }
     }
 
-    private String processMessage(String message, Player recipient, ChatTypeManager.ChatType type) {
+    private String processMessage(String message, Player recipient, Player sender, ChatTypeManager.ChatType type) {
         String processedMessage = message;
         if (isPingEnable && message.contains(pingPrefix)) {
             processedMessage = processMentions(processedMessage, recipient);
         }
-        return processFormat(type, recipient, processedMessage);
+        return processFormat(type, sender, processedMessage);
     }
 
 
