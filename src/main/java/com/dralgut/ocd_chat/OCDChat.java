@@ -1,43 +1,35 @@
 package com.dralgut.ocd_chat;
 
-import com.dralgut.ocd_chat.chat.ChatCore;
-import com.dralgut.ocd_chat.chat.server_messages.ServerMessageManager;
-import com.dralgut.ocd_chat.chat.type.ChatTypeManager;
+import com.dralgut.ocd_chat.chat.ChatProcessingManager;
+import me.deadybbb.ybmj.PluginProvider;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
+public final class OCDChat extends PluginProvider {
 
-public final class OCDChat extends JavaPlugin {
-
-    public static Logger logger;
     public static OCDChat instance;
     public static FileConfiguration config;
     public static boolean PAPI;
 
+    private ChatProcessingManager chatCore;
+
     @Override
     public void onEnable() {
-        logger = getLogger();
-        logger.info("Hello World");
-
         load();
-        Bukkit.getPluginManager().registerEvents(new ChatCore(),this);
+        Bukkit.getPluginManager().registerEvents(chatCore, this);
 
         int pluginId = 29746;
         Metrics metrics = new Metrics(this, pluginId);
 
         metrics.addCustomChart(
-                new SimplePie("server_messages_status", () ->
-                        ServerMessageManager.isServerMessageEnable ? "Active" : "Inactive"
-                ));
+                new SimplePie("server_messages_status", () -> "Inactive"));
+
         metrics.addCustomChart(
                 new SimplePie("ping_status", () ->
-                        ChatCore.isPingEnable ? "Active" : "Inactive"
+                        ChatProcessingManager.isPingEnable ? "Active" : "Inactive"
                 ));
-
     }
 
     public void load(){
@@ -46,12 +38,8 @@ public final class OCDChat extends JavaPlugin {
 
         saveDefaultConfig();
 
-        reloadConfig();
-        config = getConfig();
-
-        ChatCore.load();
-        ChatTypeManager.load();
-        ServerMessageManager.load();
+        chatCore = new ChatProcessingManager(this);
+        chatCore.init();
 
         logger.info("OCD chat is loaded :3");
     }
