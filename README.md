@@ -1,4 +1,7 @@
-This is a small plugin for chat configuration.
+This is a small plugin for chat configuration with some additions.
+* Remove auto server messages
+* Add message logging for console
+* Add "/me" command support
 
 ```yaml
 # ===== [ ERROR MESSAGES ] =====
@@ -17,7 +20,7 @@ chat:
       # Required permission to use (leave empty for public access)
       permission: ""
       # Message format: {player} = player name, {message} = message text
-      format: "[!] [{player}] {message}"
+      format: "⚑ <{player}> {message}"
       # Message broadcast distance:
       # -2 = unlimited (entire server)
       # -1 = same world only
@@ -30,9 +33,18 @@ chat:
       # Permission required (empty = available to all)
       permission: ""
       # Message format for local chat
-      format: "[?] [{player}] {message}"
+      format: "⌀ <{player}> {message}"
       # Messages are visible only within 48 blocks
-      distance: 48
+      distance: 16
+
+# ===== [ ME COMMAND ] =====
+me:
+  # Enable or disable rewriting me command
+  enable: true
+  # Message format for me command
+  format: "⌀ * {player} {message}"
+  # Messages are visible only within 16 blocks
+  distance: 16
 
 # ===== [ MENTION SYSTEM (@NAME) ] =====
 ping:
@@ -46,22 +58,6 @@ ping:
   active_format: "§6§l§n{player}§r"
   # Sound played when a player is mentioned
   sound: "minecraft:block.note_block.pling"
-
-# ===== [ SERVER MESSAGES ] =====
-# IMPORTANT: Message names must be sequential: message1, message2, etc. No gaps allowed!
-server_messages:
-  # Enable or disable automatic server message broadcasting
-  enable: false
-  # Interval between messages in ticks (20 ticks = 1 second)
-  period: 260
-  messages:
-    # Example server message with multiple lines
-    example_message:
-      - "This is an example"
-      - "multi-line message"
-    # Another message
-    hello:
-      - "Welcome to our server!"
 
 # ===== [ ADDITIONAL NOTES ] =====
 # - You can create any number of chat types with unique prefixes, formats, and distances
