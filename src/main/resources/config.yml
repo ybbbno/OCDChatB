@@ -28,7 +28,7 @@ chat:
       permission: ""
       # Message format for local chat
       format: "⌀ <{player}> {message}"
-      # Messages are visible only within 48 blocks
+      # Messages are visible only within 16 blocks
       distance: 16
 
 # ===== [ ME COMMAND ] =====
