@@ -91,7 +91,7 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
         if (type == null) return;
         e.setCancelled(true);
 
-        plugin.logger.info(message);
+        plugin.logger.info("<"+sender.getName()+"> "+message);
 
         if (!permission.isEmpty() && !sender.hasPermission(permission)) {
             printError(sender, config.noAccessToChatMessage());
