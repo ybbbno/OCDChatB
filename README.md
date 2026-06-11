@@ -2,6 +2,7 @@ This is a small plugin for chat configuration with some additions.
 * Remove auto server messages
 * Add message logging for console
 * Add "/me" command support
+* Add "/ocd reload" command for reloading plugin
 
 ```yaml
 # ===== [ ERROR MESSAGES ] =====
@@ -41,6 +42,8 @@ chat:
 me:
   # Enable or disable rewriting me command
   enable: true
+  # Permission required (empty = available to all)
+  permission: ""
   # Message format for me command
   format: "⌀ * {player} {message}"
   # Messages are visible only within 16 blocks
