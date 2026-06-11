@@ -1,5 +1,5 @@
 name: OCD_chat
-version: '1.3.2b'
+version: '1.3.3b'
 main: com.dralgut.ocd_chat.OCDChat
 api-version: '1.21'
 authors: [ Dralgut, ybbbno ]

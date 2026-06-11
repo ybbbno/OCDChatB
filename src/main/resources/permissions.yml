@@ -1,0 +1,4 @@
+permissions:
+  ocd.reload:
+    description: Allows /ocd reload
+    default: op

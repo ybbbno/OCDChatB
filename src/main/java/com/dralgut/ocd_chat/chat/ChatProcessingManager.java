@@ -4,6 +4,7 @@ import com.dralgut.ocd_chat.OCDChat;
 import com.dralgut.ocd_chat.chat.config.ChatConfig;
 import com.dralgut.ocd_chat.chat.config.ChatConfigManager;
 import com.dralgut.ocd_chat.chat.config.types.ChatType;
+import com.dralgut.ocd_chat.chat.config.types.MeConfig;
 import com.dralgut.ocd_chat.chat.config.types.PingConfig;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.deadybbb.ybmj.BasicManagerHandler;
@@ -53,27 +54,17 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
     public void onCommand(PlayerCommandPreprocessEvent e) {
         if (e.isCancelled() || config == null) return;
 
+        Player sender = e.getPlayer();
         String message = e.getMessage();
 
-        if (!message.trim().toLowerCase().startsWith("/me")) return;
+        ChatType type = config.me().getChatType();
+
+        if (!message.trim().toLowerCase().startsWith("/me") || !config.me().isEnable()) return;
         e.setCancelled(true);
 
-        Player sender = e.getPlayer();
-        int distance = config.me().distance();
-        Set<Player> recipients = getRecipients(sender, distance);
+        if (!hasPermission(type.permission(), sender)) return;
 
-        for (Player recipient : recipients) {
-            String processedMessage = processMessage(
-                    message.replace("/me ", ""),
-                    recipient,
-                    sender,
-                    new ChatType("me_temp", "", "", config.me().format(), distance
-            ));
-
-            recipient.sendMessage(processedMessage);
-        }
-
-        if (recipients.size() < 2) {
+        if (!sendMessages(message.replace("/me ", ""), sender, type)) {
             printError(sender, config.nobodySawMessage());
         }
     }
@@ -86,20 +77,21 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
         String message = e.getMessage();
 
         ChatType type = config.getType(message);
-        String permission = type.permission();
 
         if (type == null) return;
         e.setCancelled(true);
 
         plugin.logger.info("<"+sender.getName()+"> "+message);
 
-        if (!permission.isEmpty() && !sender.hasPermission(permission)) {
-            printError(sender, config.noAccessToChatMessage());
-            return;
-        }
+        if (!hasPermission(type.permission(), sender)) return;
 
-        int distance = type.distance();
-        Set<Player> recipients = getRecipients(sender, distance);
+        if (!sendMessages(message, sender, type)) {
+            printError(sender, config.nobodySawMessage());
+        }
+    }
+
+    private boolean sendMessages(String message, Player sender, ChatType type) {
+        Set<Player> recipients = getRecipients(sender, type.distance());
 
         for (Player recipient : recipients) {
             String processedMessage = processMessage(message, recipient, sender, type);
@@ -107,9 +99,15 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
             recipient.sendMessage(processedMessage);
         }
 
-        if (recipients.size() < 2) {
-            printError(sender, config.nobodySawMessage());
+        return recipients.size() > 1;
+    }
+
+    private boolean hasPermission(String permission, Player sender) {
+        if (!permission.isEmpty() && !sender.hasPermission(permission)) {
+            printError(sender, config.noAccessToChatMessage());
+            return false;
         }
+        return true;
     }
 
     private String processMessage(String message, Player recipient, Player sender, ChatType type) {
@@ -119,7 +117,6 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
         }
         return processFormat(type, sender, processedMessage);
     }
-
 
     private String processMentions(String message, Player recipient) {
         PingConfig ping = config.ping();

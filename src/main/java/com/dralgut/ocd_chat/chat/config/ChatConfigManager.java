@@ -66,15 +66,16 @@ public class ChatConfigManager extends BasicConfigHandler {
 
     private MeConfig getMe() {
         ConfigurationSection section = config.getConfigurationSection("me");
-        if (section == null) return new MeConfig(false, "", 0);
+        if (section == null) return new MeConfig(false, "", "", 0);
 
         boolean isEnable = section.getBoolean("enable", false);
-        if (!isEnable) return new MeConfig(false, "", 0);
+        if (!isEnable) return new MeConfig(false, "", "", 0);
 
-        String format = section.getString("format");
+        String permission = section.getString("permission", "");
+        String format = section.getString("format", "* {player} {message}");
         int distance = section.getInt("distance", MIN_VALID_DISTANCE-1);
 
-        return new MeConfig(true, format, distance);
+        return new MeConfig(true, permission, format, distance);
     }
 
     private PingConfig getPing() {
