@@ -1,21 +1,29 @@
 package com.dralgut.ocd_chat;
 
 import com.dralgut.ocd_chat.chat.ChatProcessingManager;
+import com.samvolvo.prefixPro.PrefixPro;
 import me.deadybbb.ybmj.PluginProvider;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.Plugin;
 
 public final class OCDChat extends PluginProvider {
 
     public static boolean PAPI;
+
+    public static PrefixPro PrefixProAPI;
 
     public ChatProcessingManager chatCore;
 
     @Override
     public void onEnable() {
         PAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
+
+        Plugin prefixPro = Bukkit.getPluginManager().getPlugin("PrefixPro");
+        if (prefixPro != null) {
+            PrefixProAPI = (PrefixPro) prefixPro;
+        }
 
         saveDefaultConfig();
 

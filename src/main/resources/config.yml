@@ -14,7 +14,7 @@ chat:
       # Required permission to use (leave empty for public access)
       permission: ""
       # Message format: {player} = player name, {message} = message text
-      format: "⚑ <{player}> {message}"
+      format: "⚑ {player}: {message}"
       # Message broadcast distance:
       # -2 = unlimited (entire server)
       # -1 = same world only
@@ -27,7 +27,7 @@ chat:
       # Permission required (empty = available to all)
       permission: ""
       # Message format for local chat
-      format: "⌀ <{player}> {message}"
+      format: "⌀ {player}: {message}"
       # Messages are visible only within 16 blocks
       distance: 16
 

@@ -4,8 +4,10 @@ import com.dralgut.ocd_chat.OCDChat;
 import com.dralgut.ocd_chat.chat.config.ChatConfig;
 import com.dralgut.ocd_chat.chat.config.ChatConfigManager;
 import com.dralgut.ocd_chat.chat.config.types.ChatType;
-import com.dralgut.ocd_chat.chat.config.types.MeConfig;
 import com.dralgut.ocd_chat.chat.config.types.PingConfig;
+import com.samvolvo.prefixPro.PrefixManager;
+import com.samvolvo.prefixPro.managers.AfkManager;
+import com.samvolvo.prefixPro.utils.ColorUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.deadybbb.ybmj.BasicManagerHandler;
 import me.deadybbb.ybmj.PluginProvider;
@@ -17,7 +19,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerCommandSendEvent;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -81,7 +82,7 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
         if (type == null) return;
         e.setCancelled(true);
 
-        plugin.logger.info("<"+sender.getName()+"> "+message);
+        plugin.logger.info(sender.getName()+": "+message);
 
         if (!hasPermission(type.permission(), sender)) return;
 
@@ -180,6 +181,26 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
                 .collect(Collectors.toSet());
     }
 
+    private String processPlayerPrefix(Player sender) {
+        if (OCDChat.PrefixProAPI != null && OCDChat.PrefixProAPI.getConfig().getBoolean("display.chat", true)) {
+            PrefixManager prefixManager = OCDChat.PrefixProAPI.getPrefixManager();
+            return prefixManager.getPrefix(sender);
+        }
+
+        return "";
+    }
+
+    private String processPlayerSuffix(Player sender) {
+        if (OCDChat.PrefixProAPI != null && OCDChat.PrefixProAPI.getConfig().getBoolean("display.chat", true)) {
+            AfkManager afkManager = OCDChat.PrefixProAPI.getAfkManager();
+            return afkManager.isAfk(sender)
+                    ? ColorUtil.colorize(OCDChat.PrefixProAPI.getConfig().getString("afk.suffix", " &7[AFK]")) + ChatColor.RESET
+                    : "";
+        }
+
+        return "";
+    }
+
     private String processFormat(ChatType type, Player sender, String message){
         String format = ChatColor.translateAlternateColorCodes('&', type.format());
 
@@ -191,8 +212,11 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
             actualMessage = message.substring(prefix.length()).trim();
         }
 
+        String playerPrefix = processPlayerPrefix(sender);
+        String playerSuffix = processPlayerSuffix(sender);
+
         return format
-                .replace("{player}", sender.getName())
+                .replace("{player}",playerPrefix + sender.getName() + playerSuffix)
                 .replace("{message}", actualMessage);
     }
 }
