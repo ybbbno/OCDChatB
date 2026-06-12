@@ -19,7 +19,7 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.11.7"
-    compileOnly files("libs/PrefixPro-2.1.2.jar")
+    compileOnly files("libs/PrefixPro-2.1.2b.jar")
 
     implementation "org.bstats:bstats-bukkit:3.0.2"
     implementation files("libs/YBMJ-0.1.5.jar")

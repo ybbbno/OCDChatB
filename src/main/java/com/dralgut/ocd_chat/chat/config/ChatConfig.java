@@ -3,19 +3,19 @@ package com.dralgut.ocd_chat.chat.config;
 import com.dralgut.ocd_chat.chat.config.types.ChatType;
 import com.dralgut.ocd_chat.chat.config.types.MeConfig;
 import com.dralgut.ocd_chat.chat.config.types.PingConfig;
-import com.dralgut.ocd_chat.chat.config.types.ResponsesConfig;
+import com.dralgut.ocd_chat.chat.config.types.MessagesConfig;
 
 import java.util.Comparator;
 import java.util.Set;
 
-public record ChatConfig(ResponsesConfig responses, Set<ChatType> chatTypes, MeConfig me, PingConfig ping) {
+public record ChatConfig(MessagesConfig messages, Set<ChatType> chatTypes, MeConfig me, PingConfig ping) {
 
     public String nobodySawMessage() {
-        return responses.nobodySaw();
+        return messages.nobodySaw();
     }
 
     public String noAccessToChatMessage() {
-        return responses.noAccessToChat();
+        return messages.noAccessToChat();
     }
 
     public boolean isPingEnabled() {

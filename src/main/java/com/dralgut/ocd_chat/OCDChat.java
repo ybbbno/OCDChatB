@@ -20,9 +20,9 @@ public final class OCDChat extends PluginProvider {
     public void onEnable() {
         PAPI = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
 
-        Plugin prefixPro = Bukkit.getPluginManager().getPlugin("PrefixPro");
+        Plugin prefixPro = Bukkit.getPluginManager().getPlugin("PrefixProB");
         if (prefixPro != null) {
-            PrefixProAPI = (PrefixPro) prefixPro;
+            PrefixProAPI = (com.samvolvo.prefixPro.PrefixPro) prefixPro;
         }
 
         saveDefaultConfig();
@@ -45,6 +45,11 @@ public final class OCDChat extends PluginProvider {
                 new SimplePie("ping_status", () ->
                         ChatProcessingManager.isPingEnable ? "Active" : "Inactive"
                 ));
+    }
+
+    @Override
+    public void onDisable() {
+        chatCore.deinit();
     }
 }
 

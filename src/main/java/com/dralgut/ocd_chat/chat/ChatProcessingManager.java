@@ -5,8 +5,8 @@ import com.dralgut.ocd_chat.chat.config.ChatConfig;
 import com.dralgut.ocd_chat.chat.config.ChatConfigManager;
 import com.dralgut.ocd_chat.chat.config.types.ChatType;
 import com.dralgut.ocd_chat.chat.config.types.PingConfig;
-import com.samvolvo.prefixPro.PrefixManager;
-import com.samvolvo.prefixPro.managers.AfkManager;
+import com.samvolvo.prefixPro.managers.PrefixRecManager;
+import com.samvolvo.prefixPro.managers.SuffixAfkManager;
 import com.samvolvo.prefixPro.utils.ColorUtil;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.deadybbb.ybmj.BasicManagerHandler;
@@ -182,20 +182,18 @@ public class ChatProcessingManager extends BasicManagerHandler implements Listen
     }
 
     private String processPlayerPrefix(Player sender) {
-        if (OCDChat.PrefixProAPI != null && OCDChat.PrefixProAPI.getConfig().getBoolean("display.chat", true)) {
-            PrefixManager prefixManager = OCDChat.PrefixProAPI.getPrefixManager();
-            return prefixManager.getPrefix(sender);
+        if (OCDChat.PrefixProAPI != null && OCDChat.PrefixProAPI.getPrefixConfig().isChat()) {
+            PrefixRecManager prefixManager = OCDChat.PrefixProAPI.getRecManager();
+            return ChatColor.RESET + ColorUtil.colorize(prefixManager.getPlayerPrefix(sender)) + ChatColor.RESET;
         }
 
         return "";
     }
 
     private String processPlayerSuffix(Player sender) {
-        if (OCDChat.PrefixProAPI != null && OCDChat.PrefixProAPI.getConfig().getBoolean("display.chat", true)) {
-            AfkManager afkManager = OCDChat.PrefixProAPI.getAfkManager();
-            return afkManager.isAfk(sender)
-                    ? ColorUtil.colorize(OCDChat.PrefixProAPI.getConfig().getString("afk.suffix", " &7[AFK]")) + ChatColor.RESET
-                    : "";
+        if (OCDChat.PrefixProAPI != null && OCDChat.PrefixProAPI.getPrefixConfig().isChat()) {
+            SuffixAfkManager afkManager = OCDChat.PrefixProAPI.getAfkManager();
+            return ChatColor.RESET + ColorUtil.colorize(afkManager.getPlayerSuffix(sender)) + ChatColor.RESET;
         }
 
         return "";

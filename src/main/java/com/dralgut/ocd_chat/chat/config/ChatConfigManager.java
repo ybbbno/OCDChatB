@@ -3,12 +3,11 @@ package com.dralgut.ocd_chat.chat.config;
 import com.dralgut.ocd_chat.chat.config.types.ChatType;
 import com.dralgut.ocd_chat.chat.config.types.MeConfig;
 import com.dralgut.ocd_chat.chat.config.types.PingConfig;
-import com.dralgut.ocd_chat.chat.config.types.ResponsesConfig;
+import com.dralgut.ocd_chat.chat.config.types.MessagesConfig;
 import me.deadybbb.ybmj.BasicConfigHandler;
 import me.deadybbb.ybmj.PluginProvider;
 import org.bukkit.configuration.ConfigurationSection;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,22 +21,25 @@ public class ChatConfigManager extends BasicConfigHandler {
     public ChatConfig getConfig() {
         reloadConfig();
 
-        ResponsesConfig responses = getResponses();
+        MessagesConfig messages = getMessages();
         Set<ChatType> types = getTypes();
         MeConfig me = getMe();
         PingConfig ping = getPing();
 
-        return new ChatConfig(responses, types, me, ping);
+        return new ChatConfig(messages, types, me, ping);
     }
 
-    private ResponsesConfig getResponses() {
+    private MessagesConfig getMessages() {
         ConfigurationSection section = config.getConfigurationSection("messages");
-        if (section == null) return new ResponsesConfig("", "");
+        if (section == null) return new MessagesConfig(
+            "§4Nobody saw your message",
+            "§4You do not have access to this type of chat"
+        );
 
-        String nobodySaw = section.getString("nobody_saw", "");
-        String noAccessToChat = section.getString("no_access_to_chat", "");
+        String nobodySaw = section.getString("nobody_saw", "§4Nobody saw your message");
+        String noAccessToChat = section.getString("no_access_to_chat", "§4You do not have access to this type of chat");
 
-        return new ResponsesConfig(nobodySaw, noAccessToChat);
+        return new MessagesConfig(nobodySaw, noAccessToChat);
     }
 
     private Set<ChatType> getTypes() {
