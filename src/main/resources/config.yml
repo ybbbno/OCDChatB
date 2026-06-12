@@ -1,7 +1,7 @@
 # ===== [ ERROR MESSAGES ] =====
 messages:
   # Message shown to a player when no one receives their message (e.g., out of range).
-  nobody_saw: "§4Nobody saw your message"
+  nobody_saw: "§7§oNobody saw your message"
   # Message shown when a player lacks permission to use a specific chat type.
   no_access_to_chat: "§4You do not have access to this type of chat"
 

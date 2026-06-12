@@ -8,7 +8,7 @@ This is a small plugin for chat configuration with some additions.
 # ===== [ ERROR MESSAGES ] =====
 messages:
   # Message shown to a player when no one receives their message (e.g., out of range).
-  nobody_saw: "§4Nobody saw your message"
+  nobody_saw: "§7§oNobody saw your message"
   # Message shown when a player lacks permission to use a specific chat type.
   no_access_to_chat: "§4You do not have access to this type of chat"
 
@@ -21,7 +21,7 @@ chat:
       # Required permission to use (leave empty for public access)
       permission: ""
       # Message format: {player} = player name, {message} = message text
-      format: "⚑ <{player}> {message}"
+      format: "⚑ {player}: {message}"
       # Message broadcast distance:
       # -2 = unlimited (entire server)
       # -1 = same world only
@@ -34,7 +34,7 @@ chat:
       # Permission required (empty = available to all)
       permission: ""
       # Message format for local chat
-      format: "⌀ <{player}> {message}"
+      format: "⌀ {player}: {message}"
       # Messages are visible only within 16 blocks
       distance: 16
 
