@@ -3,6 +3,7 @@ This is a small plugin for chat configuration with some additions.
 * Add message logging for console
 * Add "/me" command support
 * Add "/ocd reload" command for reloading plugin
+* [PrefixProB](https://github.com/ybbbno/PrefixProB) support
 
 ```yaml
 # ===== [ ERROR MESSAGES ] =====
